@@ -38,7 +38,7 @@ def validate_path_dirs(path_dest: str, path_origin: str) -> list:
         
         files = [file for file in dir_origin.rglob("*")]
     
-    return files, dir_origin
+    return files
 
 if __name__ == "__main__": 
 
