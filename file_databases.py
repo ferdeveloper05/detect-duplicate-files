@@ -9,7 +9,7 @@ def create_file_databases(name_db: str, ext: str = '.db'):
     
     return name_database
 
-def execute_database(name_database): 
+def connect_with_database(name_database): 
     conn = sqlite3.connect(name_database)
 
     cursor = conn.cursor()
@@ -20,3 +20,8 @@ def execute_database(name_database):
 
 if __name__ == "__main__":
     database = create_file_databases("Code/register_files")
+
+def insert_into_database(): 
+    pass
+
+#todo: agregar una funcion insert_into_database tiene que recibir 3 parametros
