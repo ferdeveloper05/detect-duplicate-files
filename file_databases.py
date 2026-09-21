@@ -2,14 +2,14 @@ import sqlite3
 from pathlib import Path
 
 
-def create_file_databases(name_db: str, ext: str = '.db'): 
+def create_file_databases(name_db: str, ext: str = '.db') -> Path: 
     concat_name = name_db + ext
     name_database = Path.home() / concat_name
     name_database.touch(exist_ok=True)
     
     return name_database
 
-def connect_with_database(name_database): 
+def connect_with_database(name_database) -> None: 
     conn = sqlite3.connect(name_database)
 
     cursor = conn.cursor()
@@ -18,10 +18,21 @@ def connect_with_database(name_database):
     
     conn.close()
 
+def insert_into_database(name_database: Path, nombre: str, hash_archivo: str, ruta_origen: Path) -> None: 
+    
+    conn = sqlite3.connect(name_database)
+    
+    cursor = conn.cursor()
+    sql = "INSERT INTO archivos (nombre, hash_sha256, ruta_origen) VALUES (?, ?, ?)"
+    cursor.execute(sql, (nombre, hash_archivo, ruta_origen))
+    
+    conn.commit()
+    print(f"Registro insertado con éxito. ID generado: {cursor.lastrowid}")
+    
+    conn.close()
+    
+    
 if __name__ == "__main__":
     database = create_file_databases("Code/register_files")
+    print(type(database))
 
-def insert_into_database(): 
-    pass
-
-#todo: agregar una funcion insert_into_database tiene que recibir 3 parametros
