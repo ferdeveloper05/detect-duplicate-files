@@ -9,7 +9,7 @@ def create_file_databases(name_db: str, ext: str = '.db') -> Path:
     
     return name_database
 
-def connect_with_database(name_database) -> None: 
+def connect_with_database(name_database: Path) -> None: 
     conn = sqlite3.connect(name_database)
 
     cursor = conn.cursor()
@@ -30,6 +30,18 @@ def insert_into_database(name_database: Path, nombre: str, hash_archivo: str, ru
     print(f"Registro insertado con éxito. ID generado: {cursor.lastrowid}")
     
     conn.close()
+    
+def query_in_database(name_database: Path, hash_val): 
+    
+    conn = sqlite3.connect(name_database)
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT nombre FROM archivos WHERE hash_sha256 = ?",  hash_val)
+    registro = cursor.fetchone()
+    
+    conn.commit()
+    
+    return registro
     
     
 if __name__ == "__main__":
