@@ -3,6 +3,8 @@ from pathlib import Path
 
 
 def calc_hash(file: Path, algo: str = "sha256") -> str: 
+    """ Calcula el hash de cada archivo dentro de la ruta seleccionada y lo devuelve """
+    
     hash = hashlib.new(algo)
     
     if file.exists() and file.is_file(): 

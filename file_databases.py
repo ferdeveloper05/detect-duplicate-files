@@ -3,6 +3,8 @@ from pathlib import Path
 
 
 def create_file_databases(name_db: str, ext: str = '.db') -> Path: 
+    """ Crear el archivo .db que almacena la informacion """
+    
     concat_name = name_db + ext
     name_database = Path.home() / concat_name
     name_database.touch(exist_ok=True)
@@ -10,6 +12,8 @@ def create_file_databases(name_db: str, ext: str = '.db') -> Path:
     return name_database
 
 def connect_with_database(name_database: Path) -> None: 
+    """ Conecta la base de datos y crea la tabla donde se guardara la informacion del sistema """
+    
     conn = sqlite3.connect(name_database)
 
     cursor = conn.cursor()
@@ -19,24 +23,26 @@ def connect_with_database(name_database: Path) -> None:
     conn.close()
 
 def insert_into_database(name_database: Path, nombre: str, hash_archivo: str, ruta_origen: Path) -> None: 
+    """ Insertar registro en la tabla creada """
     
     conn = sqlite3.connect(name_database)
     
     cursor = conn.cursor()
     sql = "INSERT INTO archivos (nombre, hash_sha256, ruta_origen) VALUES (?, ?, ?)"
-    cursor.execute(sql, (nombre, hash_archivo, ruta_origen))
+    cursor.execute(sql, (nombre, hash_archivo, str(ruta_origen)))
     
     conn.commit()
     print(f"Registro insertado con éxito. ID generado: {cursor.lastrowid}")
     
     conn.close()
     
-def query_in_database(name_database: Path, hash_val): 
+def query_in_database(name_database: Path, hash_val: str): 
+    """ Realiza una busqueda de un registro, si el hash de este coincide con otro devuelve el registro """
     
     conn = sqlite3.connect(name_database)
     cursor = conn.cursor()
     
-    cursor.execute("SELECT nombre FROM archivos WHERE hash_sha256 = ?",  hash_val)
+    cursor.execute('SELECT nombre FROM archivos WHERE hash_sha256 = ?',  hash_val)
     registro = cursor.fetchone()
     
     conn.commit()
