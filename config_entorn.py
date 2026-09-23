@@ -13,16 +13,18 @@ def get_environment() -> str:
         
     return path_default
 
-def get_paramm_input() -> str:
+def get_param_input() -> str:
     """ Obtiene el parametro pasado por linea de comandos y lo retorna """
     
-    paramm = sys.argv[1]
-    if paramm: 
-        print(f"La ruta que usted ingreso es: {sys.argv[1]}")
-    else: 
+    if sys.argv[0]: 
+        print("Debe ingresar una ruta como parametro antes de ejecutar el script. Ej: script.py [parametro]")
         sys.exit(1)
+        
+    elif sys.argv[1]: 
+        print(f"La ruta que usted ingreso es: {sys.argv[1]}")
+        param = sys.argv[1]
     
-    return paramm
+    return param
 
 def validate_path_dirs(path_dest: str, path_origin: str) -> list:
     """ Valida la ruta de origen y devuelve una lista con los archivos de esta """
@@ -38,8 +40,8 @@ def validate_path_dirs(path_dest: str, path_origin: str) -> list:
         
         files = [file for file in dir_origin.rglob("*")]
     
-    return files
+    return files, dir_dest
 
 if __name__ == "__main__": 
 
-    validate_path_dirs(get_environment(), get_paramm_input())
+    validate_path_dirs(get_environment(), get_param_input())
