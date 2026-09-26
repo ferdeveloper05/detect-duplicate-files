@@ -16,13 +16,12 @@ def get_environment() -> str:
 def get_param_input() -> str:
     """ Obtiene el parametro pasado por linea de comandos y lo retorna """
     
-    if sys.argv[0]: 
-        print("Debe ingresar una ruta como parametro antes de ejecutar el script. Ej: script.py [parametro]")
-        sys.exit(1)
-        
-    elif sys.argv[1]: 
+    if len(sys.argv) > 1: 
         print(f"La ruta que usted ingreso es: {sys.argv[1]}")
         param = sys.argv[1]
+    else: 
+        print("Debe ingresar una ruta como parametro antes de ejecutar el script. Ej: script.py [parametro]")
+        sys.exit(1)
     
     return param
 
